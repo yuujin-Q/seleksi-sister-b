@@ -46,45 +46,102 @@ fn muldiv(operand_1: i32, operand_2: i32, multiply: bool) i32 {
     const sign_bit: i32 = (sign(operand_1) ^ sign(operand_2));
 
     var result: i32 = 0;
-    const result_increment: i32 = if (multiply) absoluteValue(operand_2) else 1;
 
-    var counter: i32 = absoluteValue(operand_1);
-    const counter_decrement: i32 = if (multiply) 1 else absoluteValue(operand_2);
+    if (!multiply and operand_2 == 0) {
+        result = std.math.maxInt(i32);
+    } else {
+        const result_increment: i32 = if (multiply) absoluteValue(operand_2) else 1;
 
-    while (counter >= counter_decrement) {
-        counter = subtraction(counter, counter_decrement);
-        result = addition(result, result_increment);
+        var counter: i32 = absoluteValue(operand_1);
+        const counter_decrement: i32 = if (multiply) 1 else absoluteValue(operand_2);
+
+        while (counter >= counter_decrement) {
+            counter = subtraction(counter, counter_decrement);
+            result = addition(result, result_increment);
+        }
     }
 
     return if (sign_bit == 0) result else subtraction(0, result);
+}
+
+fn operate(operand_1: i32, operator: []const u8, operand_2: i32) i32 {
+    if (std.mem.eql(u8, operator, "+")) {
+        return addition(operand_1, operand_2);
+    } else if (std.mem.eql(u8, operator, "-")) {
+        return subtraction(operand_1, operand_2);
+    } else if (std.mem.eql(u8, operator, "*")) {
+        return muldiv(operand_1, operand_2, true);
+    } else if (std.mem.eql(u8, operator, "/")) {
+        return muldiv(operand_1, operand_2, false);
+    } else {
+        return std.math.maxInt(i32);
+    }
 }
 
 fn readExpression() !void {
     const stdout = std.io.getStdOut().writer();
     const stdin = std.io.getStdIn().reader();
 
-    var buf: [20]u8 = undefined;
+    var buf: [100]u8 = undefined;
 
-    try stdout.print("Calculate : \n", .{});
+    try stdout.print("\nInput expression : \n", .{});
 
     if (try stdin.readUntilDelimiterOrEof(buf[0..], '\n')) |user_input| {
         var trimmed = std.mem.trimRight(u8, user_input[0..], "\r");
-        
+
         var it = std.mem.split(u8, trimmed[0..], " ");
+
+        var is_complete_expr: bool = false;
+        var is_start: bool = true;
+        var operand_1: i32 = 0;
+        var operand_2: i32 = 0;
+        var operator: []const u8 = "";
+
+        var err: bool = false;
+
+        try stdout.print("Calculation: \n", .{});
         while (it.next()) |x| {
-            try stdout.print("{s} ", .{x});
+            // try stdout.print("{s}\n", .{x});
+            if (is_start) {
+                operand_1 = try std.fmt.parseInt(i32, x, 10);
+                is_complete_expr = true;
+                is_start = false;
+            } else {
+                if (is_complete_expr) {
+                    operator = x;
+                } else {
+                    operand_2 = try std.fmt.parseInt(i32, x, 10);
+                }
+                is_complete_expr = !is_complete_expr;
+
+                if (is_complete_expr) {
+                    var result = operate(operand_1, operator, operand_2);
+                    try stdout.print("{d} {s} {d} = {d}\n", .{ operand_1, operator, operand_2, result });
+                    operand_1 = result;
+
+                    if (std.mem.eql(u8, operator, "/") and operand_2 == 0) {
+                        err = true;
+                        try stdout.print("Zero division error\n", .{});
+                        break;
+                    }
+                }
+            }
         }
+
+        if (!err) try stdout.print("\nResult = {d}\n", .{operand_1});
     }
+
+    // todo: error handling
 }
 
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
-    
+
     try stdout.print("===========Klak3ulator===========\n", .{});
     try stdout.print("Valid Operators: + - * /\n", .{});
     try stdout.print("Input example: 1 + 2 * 3\n", .{});
     try stdout.print("Note: separate operands and operators using ' ' (single space)\n", .{});
     try stdout.print("Note: operations evaluated from left to right\n", .{});
-    
+
     try readExpression();
 }
