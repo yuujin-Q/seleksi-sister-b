@@ -210,6 +210,14 @@ print(c,c)
 
 return a * c
 ```
+Meanwhile in main
+```
+b = flag(69,42)
+a = flag(42,69)
+print(a + b)
 
+```
 ## C Source Code
 An attempt at translating ARM assembly to C source code can be viewed [here](bmi.c)
+
+![result](result.png)
