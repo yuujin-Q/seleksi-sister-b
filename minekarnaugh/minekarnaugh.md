@@ -1,6 +1,7 @@
 # Minekarnaugh
 ## 7 Segment Display
 ![7 segment display](img/7-segment-display.png)
+
 7 segment display adalah perangkat layar yang digunakan untuk menampilkan angka desimal (0-9). Jika input adalah empat bit bilangan biner yang merepresentasikan desimal 0-9, dengan setiap bit dinotasikan sebagai A, B, C, D, dan setiap segmen diberikan label a-g (mengikuti penamaan pada gambar di atas), truth table dari 7 segment display adalah sebagai berikut.
 
 | Bilangan desimal | `A` | `B` | `C` | `D` | a | b | c | d | e | f | g |
@@ -16,8 +17,7 @@
 | 8                | `1` | `0` | `0` | `0` | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 | 9                | `1` | `0` | `0` | `1` | 1 | 1 | 1 | 1 | 0 | 1 | 1 |
 
-
-Berdasarkan truth table di atas, peta Karnaugh dari setiap segmen (a-g) adalah sebagai berikut.
+Meskipun bilangan biner ABCD dapat menyatakan bilangan desimal hingga 15, bilangan di atas 10 diabaikan karena batasan perangkat 7 segment display. Oleh karena itu, berdasarkan truth table di atas dan pernyataan tersebut, peta Karnaugh dari setiap segmen (a-g) adalah sebagai berikut (tanda X menyatakan tabel kebenaran untuk bilangan 10-15).
 
 
 ![Segment a, b, c](img/karnaugh-a-b-c.png)
