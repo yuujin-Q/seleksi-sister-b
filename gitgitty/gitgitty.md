@@ -3,7 +3,7 @@
 https://github.com/yuujin-Q/gitgitty
 
 ## Video Demo
-TBA
+https://youtu.be/UFVhsYO08sY
 
 ## Implementation
 Gitgitty is implemented using Python. For version control, gitgitty uses snapshots for a simpler implementation at the cost of storage.
