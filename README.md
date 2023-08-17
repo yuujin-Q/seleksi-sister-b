@@ -1,1 +1,12 @@
-# seleksi-sister-b
+# Seleksi Lab Sister (B-Side)
+## Dokumen Pengerjaan
+- [Fotosop](fotosop/fotosop.md)
+- [Klak-klak-klakulator](klakulator/klakulator.md)
+- [Restore GRUB](restore-grub/restore-grub.md)
+- [One More Time](one-more-time/one-more-time.md)
+- [TTSK](ttsk/ttsk.md)
+- [Minekarnaugh](minekarnaugh/minekarnaugh.md)
+- [LinUwUx](linuwux/linuwux.md)
+- [Git gitty](gitgitty/gitgitty.md)
+- [BMI](bmi/belajar-matematika.txt)
+- [CTFhehe (3/7)](ctfhehe/ctfhehe.md)
